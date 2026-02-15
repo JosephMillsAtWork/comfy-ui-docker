@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  comfyui:
+    build: ./comfy-ui
+    restart: unless-stopped
+    working_dir: /srv/ai/ComfyUI/
+    command: ["--listen", "0.0.0.0", "--port", "8188", "--lowvram", "--reserve-vram", "8"]
+    environment:
+      CLI_ARGS: ""
+      COMFYUI_VERSION: "v0.13.0"
+      COMFYUI_MANAGER_VERSION: "3.39.2"
+    volumes:
+      - /srv/ai/comfy/models:/srv/ai/ComfyUI/models
+      - /srv/ai/comfy/output:/srv/ai/ComfyUI/output
+      - /srv/ai/comfy/temp:/srv/ai/ComfyUI/temp
+      - /srv/ai/comfy/user:/srv/ai/ComfyUI/user
+      - /srv/ai/comfy/custom_nodes:/srv/ai/ComfyUI/custom_nodes
+    ports:
+      - "127.0.0.1:8188:8188"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8188"]
+      interval: 30s
+      timeout: 5s
+      retries: 10
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              # device_ids: ['0']
+              count: 1
+              capabilities: [gpu]
+
