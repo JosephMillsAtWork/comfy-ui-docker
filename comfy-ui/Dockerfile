@@ -1,9 +1,9 @@
 # comment this if really 3060
-FROM nvidia/cuda:12.8.0-runtime-ubuntu24.04
+# FROM nvidia/cuda:12.8.0-runtime-ubuntu24.04
 
 # uncomment this if really 3060
-# ARG PYTORCH_VERSION=2.10.0-cuda12.6-cudnn9-runtime
-# FROM pytorch/pytorch:${PYTORCH_VERSION}
+ARG PYTORCH_VERSION=2.10.0-cuda12.6-cudnn9-runtime
+FROM pytorch/pytorch:${PYTORCH_VERSION}
 
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
 ARG COMFYUI_VERSION=v0.13.0
@@ -28,14 +28,14 @@ RUN mkdir -p /srv/ai
 RUN git clone -b ${COMFYUI_VERSION} https://github.com/comfyanonymous/ComfyUI.git /srv/ai/ComfyUI
 
 # Install NIGHTLY PyTorch for CUDA 12.8+ support
-RUN python -m pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu128
-RUN python -m pip install sqlalchemy
-RUN python -m pip install -r /srv/ai/ComfyUI/requirements.txt
+#RUN python -m pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu128
+#RUN python -m pip install sqlalchemy
+#RUN python -m pip install -r /srv/ai/ComfyUI/requirements.txt
 
 # Install requirements (3060 works with standard versions)
-# RUN python -m pip install --upgrade pip
-# RUN python -m pip install sqlalchemy
-# RUN python -m pip install -r /srv/ai/ComfyUI/requirements.txt
+RUN python -m pip install --upgrade pip
+RUN python -m pip install sqlalchemy
+RUN python -m pip install -r /srv/ai/ComfyUI/requirements.txt
 
 
 RUN mkdir -p /srv/ai/ComfyUI/custom_nodes
