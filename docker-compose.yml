@@ -1,11 +1,10 @@
-version: "3.9"
-
 services:
   comfyui:
     build: ./comfy-ui
     restart: unless-stopped
     working_dir: /srv/ai/ComfyUI/
-    command: ["--listen", "0.0.0.0", "--port", "8188", "--lowvram", "--reserve-vram", "8"]
+    user: "1000:1000"
+    command: ["--listen", "0.0.0.0", "--port", "8188", "--disable-auto-launch", "--lowvram", "--reserve-vram", "8"]
     environment:
       CLI_ARGS: ""
       COMFYUI_VERSION: "v0.13.0"
