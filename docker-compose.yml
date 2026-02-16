@@ -1,12 +1,12 @@
 services:
   comfyui:
-    build: ./comfy-ui
+    # build: ./comfy-ui
+    image: ghcr.io/josephmillsatwork/comfy-ui-docker:12.8-cu128
     restart: unless-stopped
     working_dir: /srv/ai/ComfyUI/
     user: "1000:1000"
     command: ["--listen", "0.0.0.0", "--port", "8188", "--disable-auto-launch", "--lowvram", "--reserve-vram", "8"]
     environment:
-      CLI_ARGS: ""
       COMFYUI_VERSION: "v0.13.0"
       COMFYUI_MANAGER_VERSION: "3.39.2"
     volumes:
